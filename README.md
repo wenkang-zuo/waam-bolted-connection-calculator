@@ -26,7 +26,7 @@ no third-party Python packages are needed.
 ## Implemented methods
 
 - ANSI/AISC 360-22
-- ANSI/AISC 370-21
+- ANSI/AISC 370-25
 - ASCE/SEI 8-22
 - EN 1993-1-8:2024
 - EN 1993-1-4:2025

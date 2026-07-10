@@ -5,7 +5,7 @@
 })(typeof globalThis !== "undefined" ? globalThis : this, function () {
   const methodLabels = {
     AISC360: "ANSI/AISC 360-22",
-    AISC370: "ANSI/AISC 370-21",
+    AISC370: "ANSI/AISC 370-25",
     ASCE8: "ASCE/SEI 8-22",
     "EC3-8": "EN 1993-1-8:2024",
     "EC3-4": "EN 1993-1-4:2025",

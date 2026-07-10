@@ -1,7 +1,6 @@
 const form = document.getElementById("calculator-form");
 const resultsBody = document.getElementById("results-body");
 const resultSummary = document.getElementById("result-summary");
-const parametersStrip = document.getElementById("parameters-strip");
 const messageBox = document.getElementById("message-box");
 const bInput = document.getElementById("b-input");
 const e2Input = document.getElementById("e2-input");
@@ -71,13 +70,6 @@ function renderResults(payload) {
     })
     .join("");
 
-  const parameters = payload.parameters;
-  parametersStrip.innerHTML = `
-    <span>k<sub>m, EN 1993-1-8</sub> = ${parameters["km_EC3-8"].toFixed(2)}</span>
-    <span>k<sub>1, EN 1993-1-4</sub> = ${parameters["k1_EC3-4"].toFixed(2)}</span>
-    <span>α<sub>b, EN 1993-1-8</sub> = ${parameters["alpha_b_EC3-8"].toFixed(3)}</span>
-    <span>α<sub>b, Proposed-gv</sub> = ${parameters.alpha_b_pro_gv.toFixed(3)}</span>
-  `;
 }
 
 function calculate() {
