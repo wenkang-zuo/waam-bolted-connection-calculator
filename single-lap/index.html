@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare nominal ultimate resistance and governing plate failure modes for WAAM stainless steel single-lap bolted connections.">
+  <title>WAAM Stainless Steel Single-Lap Bolted Connection Calculator</title>
+  <link rel="stylesheet" href="../connection-nav.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="calculator.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body class="single-lap-page">
+  <header class="site-header">
+    <p class="site-name">WAAM Stainless Steel <span>Bolted Connection Calculators</span></p>
+  </header>
+
+  <main class="page">
+    <nav class="lap-switcher" aria-label="Connection type">
+      <a href="../">Double-lap</a>
+      <a href="./" aria-current="page">Single-lap</a>
+    </nav>
+
+    <div class="intro">
+      <h1>WAAM Stainless Steel Single-Lap Bolted Connection Calculator</h1>
+      <p>Compare plate resistance and governing modes for a single-bolt, single-shear bearing-type connection with a standard round hole and no washers.</p>
+    </div>
+
+    <div class="section-tabs" role="tablist" aria-label="Calculator sections">
+      <button id="prediction-tab" type="button" role="tab" aria-selected="true" aria-controls="prediction">Single Prediction</button>
+      <button id="methodology-tab" type="button" role="tab" aria-selected="false" aria-controls="methodology" tabindex="-1">Methodology &amp; Scope</button>
+    </div>
+
+    <section id="prediction" class="prediction-grid" role="tabpanel" aria-labelledby="prediction-tab" tabindex="0">
+      <form id="connection-input" class="card" novalidate>
+        <div class="card-heading">
+          <h2>Connection Input</h2>
+          <button id="restore-example" class="restore-button" type="button">
+            <span aria-hidden="true">↺</span> Restore example
+          </button>
+        </div>
+
+        <fieldset>
+          <legend>WAAM stainless steel plate properties</legend>
+          <label>Material
+            <select name="material">
+              <option value="ASS" selected>ASS · Austenitic stainless steel</option>
+              <option value="DSS">DSS · Duplex stainless steel</option>
+            </select>
+          </label>
+          <div class="field-pair">
+            <label>Yield strength f<sub>y</sub> (θ direction)
+              <span class="with-unit"><input name="fy" type="number" step="any" value="350"><span>MPa</span></span>
+            </label>
+            <label>Ultimate strength f<sub>u</sub> (θ direction)
+              <span class="with-unit"><input name="fu" type="number" step="any" value="550"><span>MPa</span></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>WAAM stainless steel plate geometry</legend>
+          <div class="field-pair">
+            <label>Plate thickness t
+              <span class="with-unit"><input name="t" type="number" step="any" value="3"><span>mm</span></span>
+            </label>
+            <label>Nominal bolt diameter d<sub>b</sub>
+              <span class="with-unit"><input name="db" type="number" min="1" max="30" step="1" value="18"><span>mm</span></span>
+            </label>
+            <label>Bolt-hole diameter d<sub>h</sub>
+              <span class="with-unit"><input name="dh" type="number" step="any" value="20"><span>mm</span></span>
+            </label>
+            <label>End distance e<sub>1</sub>
+              <span class="with-unit"><input name="e1" type="number" step="any" value="40"><span>mm</span></span>
+            </label>
+            <label>Edge distance e<sub>2</sub>
+              <span class="with-unit"><input name="e2" type="number" step="any" value="30" aria-describedby="geometry-note"><span>mm</span></span>
+            </label>
+            <label>Plate width b
+              <span class="with-unit"><input name="b" type="number" step="any" value="60" aria-describedby="geometry-note"><span>mm</span></span>
+            </label>
+          </div>
+          <p id="geometry-note" class="note">Measure e<sub>1</sub> and e<sub>2</sub> from the hole centre. Enter either e<sub>2</sub> or b to update the other using b = 2e<sub>2</sub>.</p>
+        </fieldset>
+        <div id="input-message" class="input-message" role="status" aria-atomic="true"></div>
+        <noscript><p class="note">Enable JavaScript to run the calculator.</p></noscript>
+      </form>
+
+      <section class="card results" aria-labelledby="results-heading">
+        <h2 id="results-heading">Prediction Results</h2>
+        <p class="note">Nominal ultimate resistance before applying resistance or partial factors.</p>
+        <p id="results-placeholder" class="note">Waiting for valid inputs.</p>
+        <div id="result-tables" hidden>
+          <table aria-labelledby="results-heading">
+            <thead>
+              <tr><th scope="col">Method</th><th scope="col">Resistance (kN)</th><th scope="col">Governing mode</th></tr>
+            </thead>
+            <tbody id="method-results"></tbody>
+          </table>
+
+          <h3 id="literature-heading">Literature Reference Values</h3>
+          <table aria-labelledby="literature-heading">
+            <thead>
+              <tr><th scope="col">Reference</th><th scope="col">Resistance (kN)</th><th scope="col">Resistance branch</th></tr>
+            </thead>
+            <tbody id="literature-results"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <section id="methodology" class="methodology" role="tabpanel" aria-labelledby="methodology-tab" tabindex="0" hidden>
+      <article class="card">
+        <h2>Scope and Input Limits</h2>
+        <p>The model evaluates the WAAM austenitic or duplex stainless steel plate in a non-preloaded, single-bolt, single-lap connection loaded in tension. The round hole is centred across the plate width. The companion plate is assumed to remain intact. Bolt failure, companion plate failure and frictional slip are outside the plate resistance model.</p>
+        <p>Use positive dimensions and measured or specified plate strengths in the direction of loading, at angle θ to the printing direction. The nominal bolt diameter is a whole number in millimetres. The hole diameter may include decimals and must satisfy the calculator's standard-hole clearance check.</p>
+        <p>For the proposed methods, use e<sub>1</sub>/d<sub>h</sub> ≥ 1.2, e<sub>2</sub>/d<sub>h</sub> ≥ 1.2 and t ≤ 5 mm as recommended limits. The parametric study considered thicknesses of 3 and 5 mm. Values outside the recommended limits are extrapolations.</p>
+      </article>
+
+      <article class="card">
+        <h2>Governing Plate Resistance</h2>
+        <p>Each standard and proposed method reports the smallest of the net-section rupture (NSR), shear-out or end-distance-controlled (SOF), and bearing (BF) resistances. In the Eurocode comparisons, SOF identifies the end-distance branch of the bearing equation. BF identifies the bearing cap.</p>
+        <p>Bolt tilting and end curling may accompany failure in single shear. The reported governing modes identify the controlling resistance branches. Guo et al. provide a shear-out reference using p = 0.10. Teh &amp; Uz provide a tilt-bearing reference based on the net width b − d<sub>h</sub> for comparison with localised tearing (LTF) and curl-bearing failure (CBF) in the study. Each literature value represents its own branch.</p>
+      </article>
+
+      <article class="card">
+        <h2>Design Methods</h2>
+        <dl class="method-list">
+          <div>
+            <dt>ANSI/AISC 360-22</dt>
+            <dd>Provisions for structural steel buildings. The comparison uses the net shear plane and a bearing coefficient of 3.0.</dd>
+          </div>
+          <div>
+            <dt>ANSI/AISC 370-25</dt>
+            <dd>Provisions for structural stainless steel buildings. The comparison uses the gross shear plane and a bearing coefficient of 2.5 when e<sub>2</sub>/d<sub>h</sub> &gt; 1.5, or 2.0 otherwise.</dd>
+          </div>
+          <div>
+            <dt>ASCE/SEI 8-22</dt>
+            <dd>Provisions for cold-formed stainless steel structural members. The single-shear bearing coefficient is 2.65 × 0.75 for the no-washer configuration. Results for t &gt; 4.7625 mm are shown for comparison outside the thickness scope used in the study.</dd>
+          </div>
+          <div>
+            <dt>EN 1993-1-8:2024</dt>
+            <dd>Provisions for structural steel joints. The study's single-lap comparison uses a gross shear plane, k<sub>m</sub> = 1.0 for f<sub>y</sub> ≤ 460 MPa and 0.9 otherwise, and a bearing cap of 1.5d<sub>b</sub>tf<sub>u</sub>.</dd>
+          </div>
+          <div>
+            <dt>EN 1993-1-4:2025</dt>
+            <dd>Supplementary provisions for stainless steel structures. The thin single-lap branch applies at t ≤ 4 mm with a bearing coefficient of 1.6. For t &gt; 4 mm the shear and bearing branches depend on e<sub>2</sub>/d<sub>h</sub>.</dd>
+          </div>
+          <div>
+            <dt>Proposed-nv and Proposed-gv</dt>
+            <dd>Both methods use C<sub>n,pro</sub> = 0.85 + 0.15d<sub>h</sub>/b for net-section rupture and a bearing cap of 2.2d<sub>b</sub>tf<sub>u</sub>. Proposed-nv retains the AISC 360 net shear-plane expression. Proposed-gv uses a gross shear-plane coefficient of 1.1 on (e<sub>1</sub>/d<sub>h</sub>)d<sub>b</sub>tf<sub>u</sub>.</dd>
+          </div>
+        </dl>
+      </article>
+
+      <article class="card references">
+        <h2>Standards and Research References</h2>
+        <ul>
+          <li>ANSI/AISC 360-22. <cite>Specification for Structural Steel Buildings.</cite> AISC, 2022. <a href="https://www.aisc.org/aisc/publications/current-standards/aisc-360">AISC publication</a></li>
+          <li>ANSI/AISC 370-25. <cite>Specification for Structural Stainless Steel Buildings.</cite> AISC, 2025. <a href="https://www.aisc.org/aisc/publications/current-standards/aisc-370/">AISC publication</a></li>
+          <li>ASCE/SEI 8-22. <cite>Specification for the Design of Cold-Formed Stainless Steel Structural Members.</cite> ASCE, 2022. <a href="https://doi.org/10.1061/9780784415955">ASCE publication</a></li>
+          <li>EN 1993-1-8:2024. <cite>Eurocode 3 — Design of steel structures — Part 1-8: Joints.</cite> CEN, 2024. <a href="https://doi.org/10.3403/30427431">BSI publication</a></li>
+          <li>EN 1993-1-4:2025. <cite>Eurocode 3 — Design of steel structures — Part 1-4: Stainless steel structures.</cite> CEN, 2025. <a href="https://webstore.ansi.org/preview-pages/BSI/preview_30397916.pdf">Standard preview</a></li>
+          <li>Guo X, Kyvelou P, Ye J, Teh LH, Gardner L. Experimental investigation of wire arc additively manufactured steel single-lap shear bolted connections. <cite>Thin-Walled Structures</cite> 181 (2022), 110029. <a href="https://doi.org/10.1016/j.tws.2022.110029">Article</a></li>
+          <li>Teh LH, Uz ME. Ultimate Tilt-Bearing Capacity of Bolted Connections in Cold-Reduced Steel Sheets. <cite>Journal of Structural Engineering</cite> 143(4) (2017), 04016206. <a href="https://doi.org/10.1061/(ASCE)ST.1943-541X.0001702">Article</a></li>
+          <li>Zuo W, Huang Y, Chen MT, Young B. <cite>Numerical study and design of single-shear bolted connections made of wire arc additive manufacturing stainless steel.</cite> Research manuscript.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
