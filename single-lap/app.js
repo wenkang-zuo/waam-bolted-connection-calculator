@@ -6,8 +6,7 @@
   const e2Input = form.elements.namedItem("e2");
   const message = document.getElementById("input-message");
   const methodResults = document.getElementById("method-results");
-  const literatureResults = document.getElementById("literature-results");
-  const tables = document.getElementById("result-tables");
+  const table = document.getElementById("result-table");
   const placeholder = document.getElementById("results-placeholder");
   const thicknessScope = "Comparison only (t > 4.7625 mm)";
   const modeNames = {
@@ -16,37 +15,28 @@
     BF: "Bearing cap",
   };
 
-  function resultRow(name, resistance) {
+  function methodRow({ name, resistance, mode, comparisonOnly }) {
     const row = document.createElement("tr");
     const label = document.createElement("th");
     label.scope = "row";
     label.textContent = name;
     row.append(label);
-    const value = row.insertCell();
-    value.className = "resistance";
-    value.textContent = resistance.toFixed(2);
-    return row;
-  }
-
-  function methodRow({ name, resistance, mode, comparisonOnly }) {
-    const row = resultRow(name, resistance);
     if (comparisonOnly) {
       const status = document.createElement("span");
       status.className = "scope-note";
       status.textContent = thicknessScope;
-      row.cells[0].append(status);
+      label.append(status);
     }
-    const label = document.createElement("abbr");
-    label.textContent = mode;
-    label.title = modeNames[mode];
-    label.className = `mode ${mode.toLowerCase()}`;
-    row.insertCell().append(label);
-    return row;
-  }
 
-  function literatureRow({ name, resistance, branch }) {
-    const row = resultRow(name, resistance);
-    row.insertCell().textContent = branch;
+    const value = row.insertCell();
+    value.className = "resistance";
+    value.textContent = resistance.toFixed(2);
+
+    const modeLabel = document.createElement("abbr");
+    modeLabel.textContent = mode;
+    modeLabel.title = modeNames[mode];
+    modeLabel.className = `mode ${mode.toLowerCase()}`;
+    row.insertCell().append(modeLabel);
     return row;
   }
 
@@ -60,12 +50,11 @@
       const inputs = Object.fromEntries(new FormData(form));
       const prediction = WAAMSingleLap.calculate(inputs);
       methodResults.replaceChildren(...prediction.methods.map(methodRow));
-      literatureResults.replaceChildren(...prediction.literature.map(literatureRow));
-      tables.hidden = false;
+      table.hidden = false;
       placeholder.hidden = true;
       setMessage(prediction.warning, prediction.warning ? "warning" : "");
     } catch (error) {
-      tables.hidden = true;
+      table.hidden = true;
       placeholder.hidden = false;
       if (error instanceof WAAMSingleLap.ValidationError) {
         setMessage(error.errors.join(" "), "error");

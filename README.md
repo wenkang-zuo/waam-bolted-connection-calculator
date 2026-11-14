@@ -39,10 +39,10 @@ failure mode: net-section rupture, shear-out failure, or bearing failure.
 ## Single-lap methods
 
 The single-lap calculator compares the five standards above using the study's
-single-shear equations, together with Proposed-nv and Proposed-gv. It reports
-Guo et al.'s shear-out prediction and Teh & Uz's tilt-bearing prediction as
-separate literature reference values. The in-app Methodology & Scope tab
-documents the equations, applicability and references.
+single-shear equations, together with Proposed-nv and Proposed-gv. The in-app
+Methodology & Scope tab documents the equations, applicability and references,
+including the experimental studies on 316L austenitic and ER2209 duplex
+stainless steel single-lap connections.
 
 ## Scope
 

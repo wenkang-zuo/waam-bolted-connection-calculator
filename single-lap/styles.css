@@ -53,10 +53,9 @@ a { color: var(--teal); text-underline-offset: .2em; }
 
 .intro { padding: 28px 0 24px; }
 
-h1, h2, h3 { margin: 0; font-family: var(--font-serif); font-weight: 500; }
+h1, h2 { margin: 0; font-family: var(--font-serif); font-weight: 500; }
 h1 { max-width: 850px; font-size: clamp(2rem, 4.8vw, 3.5rem); line-height: 1.14; }
 h2 { font-size: clamp(1.3rem, 2vw, 1.65rem); line-height: 1.25; }
-h3 { font-size: 1.25rem; line-height: 1.35; }
 .intro p { max-width: 750px; margin: 14px 0 0; color: var(--muted); }
 
 .section-tabs {
@@ -187,9 +186,7 @@ fieldset .note { margin: 0; }
 .results tbody th { font-size: .875rem; font-weight: 680; }
 .results td { font-size: .8125rem; overflow-wrap: anywhere; }
 .results :is(th, td):nth-child(2) { width: 25%; text-align: right; }
-.results :is(th, td):nth-child(3) { width: 31%; }
-.results table:first-child :is(th, td):nth-child(3) { text-align: center; }
-.results h3 { margin: 24px 0 10px; }
+.results :is(th, td):nth-child(3) { width: 31%; text-align: center; }
 .results .resistance { font-size: .9375rem; font-weight: 680; font-variant-numeric: tabular-nums; }
 .scope-note { display: block; margin-top: 2px; color: #79511f; font-size: .75rem; font-weight: 550; }
 
