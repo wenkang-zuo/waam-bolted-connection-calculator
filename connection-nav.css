@@ -1,0 +1,27 @@
+.lap-switcher {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: 26px;
+  padding: 3px;
+  border: 1px solid #bdcfd4;
+  border-radius: 6px;
+  background: #fffdf8;
+}
+
+.lap-switcher a {
+  padding: 6px 14px;
+  border-radius: 3px;
+  color: #0b6471;
+  font-size: .875rem;
+  font-weight: 670;
+  text-decoration: none;
+}
+
+.lap-switcher a:hover { background: #e4efee; }
+.lap-switcher a:focus-visible { outline: 2px solid #0b6471; outline-offset: 2px; }
+.lap-switcher a[aria-current="page"] { background: #084b56; color: #fff; }
+
+@media (max-width: 420px) {
+  .lap-switcher { margin-top: 20px; }
+}

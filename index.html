@@ -6,6 +6,7 @@
   <meta name="description" content="Online nominal resistance calculator for WAAM stainless steel double-shear bolted connections">
   <title>WAAM Stainless Steel Bolted Connection Calculator</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="connection-nav.css">
 </head>
 <body>
 <header class="site-header">
@@ -13,6 +14,10 @@
   <div class="online-status"><i></i>Online calculation · No data upload</div>
 </header>
 <main>
+  <nav class="lap-switcher" aria-label="Connection type">
+    <a href="./" aria-current="page">Double-lap</a>
+    <a href="single-lap/">Single-lap</a>
+  </nav>
   <section class="hero">
     <div><p class="eyebrow">SINGLE-BOLT · DOUBLE-SHEAR · BEARING-TYPE</p><h2>WAAM Stainless Steel Bolted Connection Calculator</h2><p>Predict the nominal ultimate resistance and governing plate failure mode of the inner WAAM stainless steel plate using five design standards, a literature method and two proposed methods.</p></div>
     <aside><small>NOMINAL RESISTANCE</small><strong>P<sub>u</sub> = min(P<sub>NSR</sub>, P<sub>SOF</sub>, P<sub>BF</sub>)</strong><span>Units: mm · MPa · kN</span></aside>
