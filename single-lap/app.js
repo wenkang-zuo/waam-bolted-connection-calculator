@@ -35,7 +35,7 @@
     const modeLabel = document.createElement("abbr");
     modeLabel.textContent = mode;
     modeLabel.title = modeNames[mode];
-    modeLabel.className = `mode ${mode.toLowerCase()}`;
+    modeLabel.className = `mode-badge ${mode.toLowerCase()}`;
     row.insertCell().append(modeLabel);
     return row;
   }
@@ -84,34 +84,6 @@
   document.getElementById("restore-example").addEventListener("click", () => {
     form.reset();
     updatePrediction();
-  });
-
-  const tabs = Array.from(document.querySelectorAll(".section-tabs [role='tab']"));
-
-  function selectTab(selected) {
-    for (const tab of tabs) {
-      const active = tab === selected;
-      tab.setAttribute("aria-selected", String(active));
-      tab.tabIndex = active ? 0 : -1;
-      document.getElementById(tab.getAttribute("aria-controls")).hidden = !active;
-    }
-  }
-
-  tabs.forEach((tab, index) => {
-    tab.addEventListener("click", () => selectTab(tab));
-    tab.addEventListener("keydown", (event) => {
-      let next;
-      switch (event.key) {
-        case "ArrowLeft": next = (index + tabs.length - 1) % tabs.length; break;
-        case "ArrowRight": next = (index + 1) % tabs.length; break;
-        case "Home": next = 0; break;
-        case "End": next = tabs.length - 1; break;
-        default: return;
-      }
-      event.preventDefault();
-      selectTab(tabs[next]);
-      tabs[next].focus();
-    });
   });
 
   updatePrediction();
