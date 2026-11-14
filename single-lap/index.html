@@ -6,9 +6,9 @@
   <meta name="description" content="Compare nominal ultimate resistance and governing plate failure modes for WAAM stainless steel single-lap bolted connections.">
   <title>WAAM Stainless Steel Single-Lap Bolted Connection Calculator</title>
   <link rel="stylesheet" href="../connection-nav.css">
-  <link rel="stylesheet" href="styles.css">
-  <script src="calculator.js" defer></script>
-  <script src="app.js" defer></script>
+  <link rel="stylesheet" href="styles.css?v=2">
+  <script src="calculator.js?v=2" defer></script>
+  <script src="app.js?v=2" defer></script>
 </head>
 <body class="single-lap-page">
   <header class="site-header">
@@ -90,22 +90,12 @@
         <h2 id="results-heading">Prediction Results</h2>
         <p class="note">Nominal ultimate resistance before applying resistance or partial factors.</p>
         <p id="results-placeholder" class="note">Waiting for valid inputs.</p>
-        <div id="result-tables" hidden>
-          <table aria-labelledby="results-heading">
-            <thead>
-              <tr><th scope="col">Method</th><th scope="col">Resistance (kN)</th><th scope="col">Governing mode</th></tr>
-            </thead>
-            <tbody id="method-results"></tbody>
-          </table>
-
-          <h3 id="literature-heading">Literature Reference Values</h3>
-          <table aria-labelledby="literature-heading">
-            <thead>
-              <tr><th scope="col">Reference</th><th scope="col">Resistance (kN)</th><th scope="col">Resistance branch</th></tr>
-            </thead>
-            <tbody id="literature-results"></tbody>
-          </table>
-        </div>
+        <table id="result-table" aria-labelledby="results-heading" hidden>
+          <thead>
+            <tr><th scope="col">Method</th><th scope="col">Resistance (kN)</th><th scope="col">Governing mode</th></tr>
+          </thead>
+          <tbody id="method-results"></tbody>
+        </table>
       </section>
     </section>
 
@@ -120,7 +110,7 @@
       <article class="card">
         <h2>Governing Plate Resistance</h2>
         <p>Each standard and proposed method reports the smallest of the net-section rupture (NSR), shear-out or end-distance-controlled (SOF), and bearing (BF) resistances. In the Eurocode comparisons, SOF identifies the end-distance branch of the bearing equation. BF identifies the bearing cap.</p>
-        <p>Bolt tilting and end curling may accompany failure in single shear. The reported governing modes identify the controlling resistance branches. Guo et al. provide a shear-out reference using p = 0.10. Teh &amp; Uz provide a tilt-bearing reference based on the net width b − d<sub>h</sub> for comparison with localised tearing (LTF) and curl-bearing failure (CBF) in the study. Each literature value represents its own branch.</p>
+        <p>Bolt tilting, end curling and localised tearing may accompany failure in single shear.</p>
       </article>
 
       <article class="card">
@@ -163,6 +153,14 @@
           <li>EN 1993-1-4:2025. <cite>Eurocode 3 — Design of steel structures — Part 1-4: Stainless steel structures.</cite> CEN, 2025. <a href="https://webstore.ansi.org/preview-pages/BSI/preview_30397916.pdf">Standard preview</a></li>
           <li>Guo X, Kyvelou P, Ye J, Teh LH, Gardner L. Experimental investigation of wire arc additively manufactured steel single-lap shear bolted connections. <cite>Thin-Walled Structures</cite> 181 (2022), 110029. <a href="https://doi.org/10.1016/j.tws.2022.110029">Article</a></li>
           <li>Teh LH, Uz ME. Ultimate Tilt-Bearing Capacity of Bolted Connections in Cold-Reduced Steel Sheets. <cite>Journal of Structural Engineering</cite> 143(4) (2017), 04016206. <a href="https://doi.org/10.1061/(ASCE)ST.1943-541X.0001702">Article</a></li>
+          <li>Zuo W, Chen MT, Zhao O, Su A, Liu SW, Xu F, Huang Y, Cheng B.
+            Behavior of wire arc additively manufactured 316L austenitic stainless steel single shear bolted connections.
+            <cite>Thin-Walled Structures</cite> 202 (2024), 112075.
+            <a href="https://doi.org/10.1016/j.tws.2024.112075">10.1016/j.tws.2024.112075</a></li>
+          <li>Zuo W, Chen MT, Zhao O, Su A, Liu SW, Yun X, Xu F.
+            Structural performance of wire arc additively manufactured duplex stainless steel single-lap shear bolted connections.
+            <cite>Engineering Structures</cite> 319 (2024), 118706.
+            <a href="https://doi.org/10.1016/j.engstruct.2024.118706">10.1016/j.engstruct.2024.118706</a></li>
           <li>Zuo W, Huang Y, Chen MT, Young B. <cite>Numerical study and design of single-shear bolted connections made of wire arc additive manufacturing stainless steel.</cite> Research manuscript.</li>
         </ul>
       </article>

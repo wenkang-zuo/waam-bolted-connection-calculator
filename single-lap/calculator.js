@@ -93,8 +93,7 @@
   // The public form uses calculate() to enforce its standard-hole input rules.
   function evaluatePlateResistance({ fy, fu, t, db, dh, e1, e2, b }) {
     const scale = (t * fu) / 1000;
-    const netWidth = b - dh;
-    const netSection = netWidth * scale;
+    const netSection = (b - dh) * scale;
     const bearing = db * scale;
     const endRatio = e1 / dh;
     const netShear = 2 * (e1 - dh / 2) * scale;
@@ -126,30 +125,14 @@
       governingMethod("pro,gv", "Proposed-gv", proposedNetSection, 1.1 * grossShear, proposedBearing),
     ];
 
-    const literature = [
-      {
-        key: "guo",
-        name: "Guo et al. (2022)",
-        branch: "Shear-out (SOF)",
-        resistance: 1.2 * (3 * db / e1) ** 0.1 * (e1 - dh / 4) * scale,
-      },
-      {
-        key: "teh",
-        name: "Teh & Uz (2017)",
-        branch: "Tilt-bearing (LTF / CBF reference)",
-        resistance: (2.65 * db ** (1 / 2) * t ** (4 / 3) * netWidth ** (1 / 6) * fu) / 1000,
-      },
-    ];
-
-    return { methods, literature };
+    return { methods };
   }
 
   function calculate(data) {
     const inputs = normalizeInputs(data);
-    const { methods, literature } = evaluatePlateResistance(inputs);
+    const { methods } = evaluatePlateResistance(inputs);
 
-    if (methods.some(({ candidates }) => Object.values(candidates).some(invalidResistance)) ||
-        literature.some(({ resistance }) => invalidResistance(resistance))) {
+    if (methods.some(({ candidates }) => Object.values(candidates).some(invalidResistance))) {
       throw new ValidationError(["The entered values exceed the numerical range of the calculator."]);
     }
 
@@ -162,7 +145,7 @@
       ? `Outside the recommended range for the proposed methods (${outside.join(", ")}).`
       : "";
 
-    return { inputs, methods, literature, warning };
+    return { inputs, methods, warning };
   }
 
   function invalidResistance(value) {
