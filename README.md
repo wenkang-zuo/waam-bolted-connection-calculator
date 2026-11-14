@@ -5,8 +5,8 @@ bearing-type connections.
 
 ## Online edition
 
-- [Double-lap calculator](https://wenkang-zuo.github.io/waam-bolted-connection-calculator/)
-- [Single-lap calculator](https://wenkang-zuo.github.io/waam-bolted-connection-calculator/single-lap/)
+- [Double shear calculator](https://wenkang-zuo.github.io/waam-bolted-connection-calculator/)
+- [Single shear calculator](https://wenkang-zuo.github.io/waam-bolted-connection-calculator/single-lap/)
 
 The online edition requires no installation and supports rapid single-case
 prediction. All calculations run locally in the browser, and no input data are
@@ -14,15 +14,15 @@ uploaded.
 
 ## Local edition
 
-The double-lap local edition additionally supports Excel/CSV batch input and
-Excel result export.
+The double shear local edition supports Excel or CSV batch input and Excel
+result export. The single shear calculator is available as an online single-case tool.
 
 - [Download the local edition ZIP](downloads/WAAM-Bolted-Connection-Calculator-local.zip)
 
 Extract the ZIP and read its `README.md` for installation instructions. Python
 3.10 or later is required. No third-party Python packages are needed.
 
-## Double-lap methods
+## Double shear methods
 
 - ANSI/AISC 360-22
 - ANSI/AISC 370-25
@@ -36,7 +36,7 @@ Extract the ZIP and read its `README.md` for installation instructions. Python
 The reported outputs are the nominal ultimate resistance and governing plate
 failure mode: net-section rupture, shear-out failure, or bearing failure.
 
-## Single-lap methods
+## Single shear methods
 
 The single-lap calculator compares the five standards above using the study's
 single-shear equations, together with Proposed-nv and Proposed-gv. The in-app

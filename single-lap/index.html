@@ -4,39 +4,39 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Compare nominal ultimate resistance and governing plate failure modes for WAAM stainless steel single-lap bolted connections.">
-  <title>WAAM Stainless Steel Single-Lap Bolted Connection Calculator</title>
-  <link rel="stylesheet" href="../connection-nav.css">
-  <link rel="stylesheet" href="styles.css?v=2">
+  <title>WAAM Stainless Steel Bolted Connection Calculator: single shear</title>
+  <link rel="stylesheet" href="../calculator-ui.css">
   <script src="calculator.js?v=2" defer></script>
-  <script src="app.js?v=2" defer></script>
+  <script src="../calculator-tabs.js" defer></script>
+  <script src="app.js?v=3" defer></script>
 </head>
 <body class="single-lap-page">
-  <header class="site-header">
-    <p class="site-name">WAAM Stainless Steel <span>Bolted Connection Calculators</span></p>
+  <header class="calculator-banner">
+    <p class="calculator-brand calculator-width">WAAM Stainless Steel <span>Bolted Connection Calculators</span></p>
   </header>
 
-  <main class="page">
+  <main class="calculator-width">
     <nav class="lap-switcher" aria-label="Connection type">
-      <a href="../">Double-lap</a>
-      <a href="./" aria-current="page">Single-lap</a>
+      <a href="../">Double shear</a>
+      <a href="./" aria-current="page">Single shear</a>
     </nav>
 
-    <div class="intro">
-      <h1>WAAM Stainless Steel Single-Lap Bolted Connection Calculator</h1>
-      <p>Compare plate resistance and governing modes for a single-bolt, single-shear bearing-type connection with a standard round hole and no washers.</p>
+    <div class="calculator-intro">
+      <h1 class="calculator-title">WAAM Stainless Steel Bolted Connection Calculator: single shear</h1>
+      <p>Compare nominal ultimate resistance and governing failure modes of the WAAM stainless steel plate in a single-bolt, single-shear bearing-type connection with a standard round hole and no washers.</p>
     </div>
 
-    <div class="section-tabs" role="tablist" aria-label="Calculator sections">
+    <div class="calculator-tabs" role="tablist" aria-label="Calculator sections">
       <button id="prediction-tab" type="button" role="tab" aria-selected="true" aria-controls="prediction">Single Prediction</button>
       <button id="methodology-tab" type="button" role="tab" aria-selected="false" aria-controls="methodology" tabindex="-1">Methodology &amp; Scope</button>
     </div>
 
-    <section id="prediction" class="prediction-grid" role="tabpanel" aria-labelledby="prediction-tab" tabindex="0">
-      <form id="connection-input" class="card" novalidate>
-        <div class="card-heading">
-          <h2>Connection Input</h2>
-          <button id="restore-example" class="restore-button" type="button">
-            <span aria-hidden="true">↺</span> Restore example
+    <section id="prediction" class="calculator-layout calculator-tab-panel" role="tabpanel" aria-labelledby="prediction-tab" tabindex="0">
+      <form id="connection-input" class="calculator-panel" novalidate>
+        <div class="calculator-card-heading">
+          <h2 class="calculator-card-title">Connection Input</h2>
+          <button id="restore-example" class="calculator-reset" type="button">
+            <span class="reset-icon" aria-hidden="true">↺</span><span>Restore example</span>
           </button>
         </div>
 
@@ -80,41 +80,41 @@
               <span class="with-unit"><input name="b" type="number" step="any" value="60" aria-describedby="geometry-note"><span>mm</span></span>
             </label>
           </div>
-          <p id="geometry-note" class="note">Measure e<sub>1</sub> and e<sub>2</sub> from the hole centre. Enter either e<sub>2</sub> or b to update the other using b = 2e<sub>2</sub>.</p>
+          <p id="geometry-note" class="calculator-note geometry-note">Measure e<sub>1</sub> and e<sub>2</sub> from the hole centre. Enter either e<sub>2</sub> or b to update the other using b = 2e<sub>2</sub>.</p>
         </fieldset>
         <div id="input-message" class="input-message" role="status" aria-atomic="true"></div>
-        <noscript><p class="note">Enable JavaScript to run the calculator.</p></noscript>
+        <noscript><p class="calculator-note">Enable JavaScript to run the calculator.</p></noscript>
       </form>
 
-      <section class="card results" aria-labelledby="results-heading">
-        <h2 id="results-heading">Prediction Results</h2>
-        <p class="note">Nominal ultimate resistance before applying resistance or partial factors.</p>
-        <p id="results-placeholder" class="note">Waiting for valid inputs.</p>
-        <table id="result-table" aria-labelledby="results-heading" hidden>
+      <section class="calculator-panel" aria-labelledby="results-heading">
+        <h2 id="results-heading" class="calculator-card-title">Prediction Results</h2>
+        <p class="calculator-note">Nominal ultimate resistance before applying resistance or partial factors.</p>
+        <p id="results-placeholder" class="calculator-note">Waiting for valid inputs.</p>
+        <table id="result-table" class="calculator-result-table" aria-labelledby="results-heading" hidden>
           <thead>
-            <tr><th scope="col">Method</th><th scope="col">Resistance (kN)</th><th scope="col">Governing mode</th></tr>
+            <tr><th scope="col">Design method</th><th scope="col">Resistance (kN)</th><th scope="col">Governing mode</th></tr>
           </thead>
           <tbody id="method-results"></tbody>
         </table>
       </section>
     </section>
 
-    <section id="methodology" class="methodology" role="tabpanel" aria-labelledby="methodology-tab" tabindex="0" hidden>
-      <article class="card">
-        <h2>Scope and Input Limits</h2>
+    <section id="methodology" class="methodology calculator-tab-panel" role="tabpanel" aria-labelledby="methodology-tab" tabindex="0" hidden>
+      <article class="calculator-panel">
+        <h2 class="calculator-card-title">Scope and Input Limits</h2>
         <p>The model evaluates the WAAM austenitic or duplex stainless steel plate in a non-preloaded, single-bolt, single-lap connection loaded in tension. The round hole is centred across the plate width. The companion plate is assumed to remain intact. Bolt failure, companion plate failure and frictional slip are outside the plate resistance model.</p>
         <p>Use positive dimensions and measured or specified plate strengths in the direction of loading, at angle θ to the printing direction. The nominal bolt diameter is a whole number in millimetres. The hole diameter may include decimals and must satisfy the calculator's standard-hole clearance check.</p>
         <p>For the proposed methods, use e<sub>1</sub>/d<sub>h</sub> ≥ 1.2, e<sub>2</sub>/d<sub>h</sub> ≥ 1.2 and t ≤ 5 mm as recommended limits. The parametric study considered thicknesses of 3 and 5 mm. Values outside the recommended limits are extrapolations.</p>
       </article>
 
-      <article class="card">
-        <h2>Governing Plate Resistance</h2>
+      <article class="calculator-panel">
+        <h2 class="calculator-card-title">Governing Plate Resistance</h2>
         <p>Each standard and proposed method reports the smallest of the net-section rupture (NSR), shear-out or end-distance-controlled (SOF), and bearing (BF) resistances. In the Eurocode comparisons, SOF identifies the end-distance branch of the bearing equation. BF identifies the bearing cap.</p>
         <p>Bolt tilting, end curling and localised tearing may accompany failure in single shear.</p>
       </article>
 
-      <article class="card">
-        <h2>Design Methods</h2>
+      <article class="calculator-panel">
+        <h2 class="calculator-card-title">Design Methods</h2>
         <dl class="method-list">
           <div>
             <dt>ANSI/AISC 360-22</dt>
@@ -143,8 +143,8 @@
         </dl>
       </article>
 
-      <article class="card references">
-        <h2>Standards and Research References</h2>
+      <article class="calculator-panel references">
+        <h2 class="calculator-card-title">Standards and Research References</h2>
         <ul>
           <li>ANSI/AISC 360-22. <cite>Specification for Structural Steel Buildings.</cite> AISC, 2022. <a href="https://www.aisc.org/aisc/publications/current-standards/aisc-360">AISC publication</a></li>
           <li>ANSI/AISC 370-25. <cite>Specification for Structural Stainless Steel Buildings.</cite> AISC, 2025. <a href="https://www.aisc.org/aisc/publications/current-standards/aisc-370/">AISC publication</a></li>

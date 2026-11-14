@@ -1,124 +1,97 @@
-const form = document.getElementById("calculator-form");
-const resultsBody = document.getElementById("results-body");
-const resultSummary = document.getElementById("result-summary");
-const messageBox = document.getElementById("message-box");
-const bInput = document.getElementById("b-input");
-const e2Input = document.getElementById("e2-input");
-const resetButton = document.getElementById("reset-button");
+(() => {
+  "use strict";
 
-let calculationTimer;
-const sample = {
-  Material: "ASS",
-  fy_MPa_theta: 380,
-  fu_MPa_theta: 513.2,
-  fub_MPa: 800,
-  t_mm: 3.43,
-  db_mm: 18,
-  dh_mm: 20,
-  b_mm: 140,
-  e1_mm: 30,
-  e2_mm: 70,
-};
+  const form = document.getElementById("calculator-form");
+  const resultsBody = document.getElementById("results-body");
+  const summary = document.getElementById("result-summary");
+  const range = document.getElementById("result-range");
+  const table = document.getElementById("result-table");
+  const placeholder = document.getElementById("results-placeholder");
+  const message = document.getElementById("message-box");
+  const bInput = document.getElementById("b-input");
+  const e2Input = document.getElementById("e2-input");
+  const modeNames = {
+    NSR: "Net-section rupture",
+    SOF: "Shear-out or end-distance-controlled branch",
+    BF: "Bearing failure",
+  };
 
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;");
-}
+  function methodRow({ method, resistance, mode }, maximum) {
+    const row = document.createElement("tr");
+    const label = document.createElement("th");
+    label.scope = "row";
+    label.textContent = method;
+    row.append(label);
 
-function setMessage(messages = [], type = "error") {
-  if (!messages.length) {
-    messageBox.className = "message-box";
-    messageBox.textContent = "";
-    return;
+    const value = row.insertCell();
+    value.className = "resistance";
+    value.textContent = resistance.toFixed(2);
+
+    const modeLabel = document.createElement("abbr");
+    modeLabel.textContent = mode;
+    modeLabel.title = modeNames[mode];
+    modeLabel.className = `mode-badge ${mode.toLowerCase()}`;
+    row.insertCell().append(modeLabel);
+
+    const track = document.createElement("div");
+    track.className = "bar-track";
+    const fill = document.createElement("span");
+    fill.className = "bar-fill";
+    fill.style.width = maximum ? `${100 * resistance / maximum}%` : "0%";
+    track.append(fill);
+    row.insertCell().append(track);
+    return row;
   }
-  messageBox.className = `message-box show ${type}`;
-  messageBox.innerHTML = messages.map((message) => `<div>${escapeHtml(message)}</div>`).join("");
-}
 
-function formData() {
-  return Object.fromEntries(new FormData(form).entries());
-}
+  function setMessage(messages, kind) {
+    const text = messages.join(" ");
+    if (message.textContent !== text) message.textContent = text;
+    message.dataset.kind = kind;
+  }
 
-function renderResults(payload) {
-  const values = payload.methods.map((method) => method.resistance);
-  const minimum = Math.min(...values);
-  const maximum = Math.max(...values);
-  resultSummary.classList.remove("skeleton");
-  resultSummary.innerHTML = `
-    <span>Range across eight methods</span>
-    <strong>${minimum.toFixed(2)} – ${maximum.toFixed(2)} kN</strong>
-  `;
-  resultsBody.innerHTML = payload.methods
-    .map((method) => {
-      const width = maximum ? (method.resistance / maximum) * 100 : 0;
-      const family = method.key.startsWith("pro,")
-        ? "Proposed method"
-        : method.key === "Literature"
-          ? "Literature"
-          : "Design standard";
-      return `
-        <tr>
-          <td><span class="method-name">${escapeHtml(method.method)}<small>${family}</small></span></td>
-          <td><span class="resistance">${method.resistance.toFixed(2)} <small>kN</small></span></td>
-          <td><span class="mode-badge ${method.mode.toLowerCase()}">${method.mode}</span></td>
-          <td><div class="bar-track"><div class="bar-fill" style="width:${width.toFixed(1)}%"></div></div></td>
-        </tr>
-      `;
-    })
-    .join("");
-
-}
-
-function calculate() {
-  try {
-    const payload = WAAMCalculator.calculate(formData());
-    renderResults(payload);
-    setMessage(payload.warnings, "warning");
-  } catch (error) {
-    if (error instanceof WAAMCalculator.ValidationError) {
-      setMessage(error.errors);
-      return;
+  function updatePrediction() {
+    try {
+      const inputs = Object.fromEntries(new FormData(form));
+      const { methods, warnings } = WAAMCalculator.calculate(inputs);
+      const values = methods.map(({ resistance }) => resistance);
+      const maximum = Math.max(...values);
+      range.textContent = `${Math.min(...values).toFixed(2)} – ${maximum.toFixed(2)} kN`;
+      resultsBody.replaceChildren(...methods.map((method) => methodRow(method, maximum)));
+      summary.hidden = false;
+      table.hidden = false;
+      placeholder.hidden = true;
+      setMessage(warnings, "warning");
+    } catch (error) {
+      summary.hidden = true;
+      table.hidden = true;
+      placeholder.hidden = false;
+      const errors = error instanceof WAAMCalculator.ValidationError
+        ? error.errors
+        : [`Calculation failed: ${error.message}`];
+      setMessage(errors, "error");
     }
-    setMessage([`Calculation failed: ${error.message}`]);
   }
-}
 
-function scheduleCalculation() {
-  clearTimeout(calculationTimer);
-  calculationTimer = setTimeout(calculate, 100);
-}
-
-function formatLinked(value) {
-  return Number.isFinite(value) ? Number(value.toFixed(6)).toString() : "";
-}
-
-form.addEventListener("input", (event) => {
-  if (event.target === e2Input && e2Input.value !== "") {
-    bInput.value = formatLinked(Number(e2Input.value) * 2);
+  function linkDimension(input, output, factor) {
+    const value = input.valueAsNumber * factor;
+    output.value = Number.isFinite(value) ? value.toString() : "";
   }
-  if (event.target === bInput && bInput.value !== "") {
-    e2Input.value = formatLinked(Number(bInput.value) / 2);
-  }
-  scheduleCalculation();
-});
 
-resetButton.addEventListener("click", () => {
-  Object.entries(sample).forEach(([name, value]) => {
-    form.elements[name].value = value;
+  form.addEventListener("input", (event) => {
+    if (event.target === e2Input) linkDimension(e2Input, bInput, 2);
+    if (event.target === bInput) linkDimension(bInput, e2Input, 0.5);
+    updatePrediction();
   });
-  calculate();
-});
 
-document.querySelectorAll(".tab").forEach((tab) => {
-  tab.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach((item) => item.classList.remove("active"));
-    document.querySelectorAll(".tab-panel").forEach((panel) => panel.classList.remove("active"));
-    tab.classList.add("active");
-    document.getElementById(`${tab.dataset.tab}-panel`).classList.add("active");
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    updatePrediction();
   });
-});
 
-calculate();
+  document.getElementById("reset-button").addEventListener("click", () => {
+    form.reset();
+    updatePrediction();
+  });
+
+  updatePrediction();
+})();
