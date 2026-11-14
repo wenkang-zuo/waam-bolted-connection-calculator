@@ -14,10 +14,12 @@ uploaded.
 
 ## Local edition
 
-The double shear local edition supports Excel or CSV batch input and Excel
-result export. The single shear calculator is available as an online single-case tool.
+Both local editions support single-case prediction, Excel or CSV batch input,
+and Excel result export. The single shear edition can read the
+`Single_lap_batch` worksheet directly.
 
-- [Download the local edition ZIP](downloads/WAAM-Bolted-Connection-Calculator-local.zip)
+- [Download the double shear local edition](downloads/WAAM-Bolted-Connection-Calculator-local.zip)
+- [Download the single shear local edition](downloads/WAAM-Bolted-Connection-Calculator-single-shear-local.zip)
 
 Extract the ZIP and read its `README.md` for installation instructions. Python
 3.10 or later is required. No third-party Python packages are needed.
